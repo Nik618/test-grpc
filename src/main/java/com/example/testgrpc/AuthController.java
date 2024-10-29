@@ -1,10 +1,7 @@
 package com.example.testgrpc;
 
 
-import com.example.testgrpc.dto.JwtRequestDto;
-import com.example.testgrpc.dto.JwtResponseDto;
-import com.example.testgrpc.dto.RefreshJwtRequestDto;
-import com.example.testgrpc.dto.UserDto;
+import com.example.testgrpc.dto.*;
 import com.example.testgrpc.entity.UserEntity;
 import com.example.testgrpc.repository.UserRepository;
 import com.example.testgrpc.service.AuthService;
@@ -41,7 +38,7 @@ public class AuthController {
         userEntity.setUsername(request.getLogin());
         userEntity.setName(request.getName());
         userEntity.setPassword(request.getPassword());
-        userEntity.setRole("USER");
+        userEntity.setRole(String.valueOf(RoleEnum.USER));
         userRepository.save(userEntity);
         return ResponseEntity.ok("200 OK");
     }

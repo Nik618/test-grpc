@@ -1,7 +1,6 @@
 package com.example.testgrpc.service;
 
 import com.example.testgrpc.JwtAuthentication;
-import com.example.testgrpc.service.JwtProviderService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;

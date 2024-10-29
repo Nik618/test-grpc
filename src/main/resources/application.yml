@@ -14,13 +14,7 @@ spring:
     open-in-view: false
 
 server:
-  port: 443
-  ssl:
-    enabled: true
-    key-store-type: PKCS12
-    key-store: keystore.p12
-    key-alias: tomcat
-    key-store-password: 123456
+  port: 8080
 
 jwt:
   secret:

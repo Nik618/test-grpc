@@ -19,7 +19,7 @@ public class UserService {
 
     public Optional<UserDto> getByLogin(String login) {
         return userRepository.findAllByUsername(login).stream()
-                .map(entity -> new UserDto(entity.username, entity.password, entity.name, entity.role != null ? Set.of(RoleEnum.valueOf(entity.role)) : Set.of()))
+                .map(entity -> new UserDto(entity.getUsername(), entity.getPassword(), entity.getName(), entity.getRole() != null ? Set.of(RoleEnum.valueOf(entity.getRole())) : Set.of()))
                 .findFirst();
     }
 }

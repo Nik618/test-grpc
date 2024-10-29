@@ -1,6 +1,7 @@
 package com.example.testgrpc.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.Setter;
 
 @Entity
@@ -9,19 +10,25 @@ public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer id; //TODO getters!
+    public Integer id;
 
     @Setter
-    public String username;
+    @Getter
+    private String username;
     @Setter
-    public String password;
+    @Getter
+    private String password;
     @Setter
-    public String name;
+    @Getter
+    private String name;
     @Setter
-    public String accessToken;
+    @Getter
+    private String accessToken;
     @Setter
-    public String refreshToken;
+    @Getter
+    private String refreshToken;
     @Setter
-    public String role;
+    @Getter
+    private String role;
 
 }

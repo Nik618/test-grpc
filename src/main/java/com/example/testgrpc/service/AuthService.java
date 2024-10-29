@@ -10,17 +10,12 @@ import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Service
 public class AuthService {
 
     private final UserService userService;
     private final JwtProviderService jwtProviderService;
     private final UserRepository userRepository;
-
-    private final Map<String, String> refreshStorage = new HashMap<>();
 
     @Autowired
     public AuthService(UserService userService, JwtProviderService jwtProviderService, UserRepository userRepository) {
@@ -36,7 +31,7 @@ public class AuthService {
             String accessToken = jwtProviderService.generateAccessToken(user);
             String refreshToken = jwtProviderService.generateRefreshToken(user);
             UserEntity userEntity = userRepository.findByUsername(user.getLogin());
-            userEntity.refreshToken = refreshToken;
+            userEntity.setRefreshToken(refreshToken);
             userRepository.save(userEntity);
             return new JwtResponseDto("Bearer", accessToken, refreshToken);
         } else {
@@ -48,14 +43,14 @@ public class AuthService {
         if (jwtProviderService.validateRefreshToken(refreshToken)) {
             Claims claims = jwtProviderService.getRefreshClaims(refreshToken);
             String login = claims.getSubject();
-            String savedRefreshToken = userRepository.findByUsername(login).refreshToken;
+            String savedRefreshToken = userRepository.findByUsername(login).getRefreshToken();
             if (savedRefreshToken != null && savedRefreshToken.equals(refreshToken)) {
                 UserDto user = userService.getByLogin(login).orElseThrow(() -> new Exception("User not found"));
                 String accessToken = jwtProviderService.generateAccessToken(user);
                 String newRefreshToken = jwtProviderService.generateRefreshToken(user);
                 UserEntity userEntity = userRepository.findByUsername(user.getLogin());
-                userEntity.refreshToken = newRefreshToken;
-                userEntity.accessToken = accessToken;
+                userEntity.setRefreshToken(newRefreshToken);
+                userEntity.setAccessToken(accessToken);
                 userRepository.save(userEntity);
                 return new JwtResponseDto("Bearer", accessToken, newRefreshToken);
             }
